@@ -18,8 +18,8 @@ namespace TestAsyncConsole
             //await TestRealIOBoundTasks();
 
             Console.WriteLine();
-            Console.WriteLine("In Main() - End");
             Console.WriteLine("Thread Id: {0}", Environment.CurrentManagedThreadId);
+            Console.WriteLine("In Main() - End");
         }
 
         private static async Task TestRealIOBoundTasks()
@@ -31,15 +31,15 @@ namespace TestAsyncConsole
             int num = 0;
 
             Console.WriteLine("Calling \"await foreach\"");
-            Console.WriteLine();
-
-            await foreach (var pr in gitHubService.GetLatestPrsAsync(50, "dotnet", "runtime"))
+            
+            await foreach (var pr in gitHubService.GetLatestPrsAsync(5, "dotnet", "runtime"))
             {
+                Console.WriteLine();
                 Console.WriteLine(pr["title"]);
                 Console.WriteLine($"Received {++num} PRs in total");
+                Console.WriteLine();
             }
 
-            Console.WriteLine();
             Console.WriteLine("Finished \"await foreach\"");
 
             Console.WriteLine("Thread Id: {0}", Environment.CurrentManagedThreadId);
@@ -94,10 +94,12 @@ namespace TestAsyncConsole
             var delay = 5000;
 
             Console.WriteLine("Entering do-while");
+            Console.WriteLine();
+
             do
             {
                 //if (iteration == 1) throw new Exception("Crikey!");
-                
+
                 Console.WriteLine("Starting iteration: {0}", iteration +1);
                 Console.WriteLine("Thread Id: {0}", Environment.CurrentManagedThreadId);
                 Console.WriteLine("Calling \"await Task.Delay({0})\"", delay);

@@ -41,6 +41,10 @@ namespace TestAsyncConsole
 
         public async IAsyncEnumerable<JToken> GetLatestPrsAsync(int count, string repoOwner, string repoName, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
+            Console.WriteLine("GetLatestPrsAsync() - Start");
+            Console.WriteLine("Thread Id: {0}", Environment.CurrentManagedThreadId);
+            Console.WriteLine();
+
             var prQuery = new GraphQLRequest
             {
                 Query = PagedPrQuery
@@ -65,6 +69,7 @@ namespace TestAsyncConsole
 
                 Console.WriteLine("Finished \"_githubClient.Connection.Post()\"");
                 Console.WriteLine("Thread Id: {0}", Environment.CurrentManagedThreadId);
+                Console.WriteLine();
 
                 JObject results = JObject.Parse(response.HttpResponse.Body.ToString()!);
 
@@ -81,6 +86,10 @@ namespace TestAsyncConsole
 
             JObject pullRequests(JObject result) => (JObject)result["data"]!["repository"]!["pullRequests"]!;
             JObject pageInfo(JObject result) => (JObject)pullRequests(result)["pageInfo"]!;
+
+            Console.WriteLine("Thread Id: {0}", Environment.CurrentManagedThreadId);
+            Console.WriteLine("GetLatestPrsAsync() - End");
+            Console.WriteLine();
         }
     }
 }
